@@ -1,0 +1,19 @@
+{
+    "folders": [
+        {
+            "path": "." // Hoặc đường dẫn tới thư mục project của bạn
+        }
+    ],
+    "settings": {
+        // Cài đặt riêng cho workspace
+        "files.exclude": {
+            "**/.git": true,
+            "**/build": true
+        },
+        "editor.tabSize": 4,
+        "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools",
+        "files.associations": {
+            "iostream": "cpp"
+        }
+    }
+}

@@ -1,0 +1,6 @@
+# Bỏ qua thư mục build
+/build/
+
+# Bỏ qua thư mục raylib nếu chưa là submodule
+/raylib/*
+!.gitmodules
