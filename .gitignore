@@ -1,6 +1,7 @@
-# Bỏ qua thư mục build
+/enet/
 /build/
-
-# Bỏ qua thư mục raylib nếu chưa là submodule
-/raylib/*
+/server/build/
+/client/build/
+/raylib/
+/enet/
 !.gitmodules

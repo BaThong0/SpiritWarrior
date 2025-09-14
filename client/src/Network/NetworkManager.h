@@ -1,14 +1,20 @@
 #pragma once
 #include <functional>
 #include <string>
+#include <enet/enet.h>
 
-class NetworkManager {
+class NetworkManager
+{
 public:
 	using Callback = std::function<void(bool)>;
-	static NetworkManager& GetInstance();
-	void SendRequest(const std::string& type, Callback cb);
+	static NetworkManager &GetInstance();
+	void SendRequest(const std::string &type, Callback cb);
+	void GetMessagesFromServerLoop();
+
 private:
-	NetworkManager() = default;
-	NetworkManager(const NetworkManager&) = delete;
-	NetworkManager& operator=(const NetworkManager&) = delete;
+	NetworkManager();
+	NetworkManager(const NetworkManager &) = delete;
+	NetworkManager &operator=(const NetworkManager &) = delete;
+	ENetHost *client;
+	void ParseData(unsigned char* data);
 };

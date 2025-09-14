@@ -1,6 +1,6 @@
 cmake_minimum_required (VERSION 3.16)
 
-project("Spirit_Warrior")
+project("Spirit_Warrior_Client")
 
 file(GLOB_RECURSE HEADER_FILES ${CMAKE_CURRENT_SOURCE_DIR}/src/*.h)
 file(GLOB_RECURSE HEADER_FILES ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp)
@@ -12,7 +12,17 @@ add_subdirectory(
     "${CMAKE_BINARY_DIR}/raylib"
 )
 
-target_link_libraries(${PROJECT_NAME} PUBLIC raylib)
+add_subdirectory(
+    "../enet" #source
+    "${CMAKE_BINARY_DIR}/enet"
+)
+
+# Link thư viện OS-specific
+if(WIN32)
+    target_link_libraries(${PROJECT_NAME} PRIVATE Ws2_32 Winmm raylib)
+elseif(UNIX)
+    target_link_libraries(${PROJECT_NAME} PRIVATE raylib pthread)
+endif()
 
 add_custom_target(run
     COMMAND ${PROJECT_NAME}

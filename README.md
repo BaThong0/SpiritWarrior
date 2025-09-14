@@ -22,8 +22,8 @@ SpiritWarrior/
 This project requires:  
 - **CMake** ≥ 3.15  
 - **C++20**  
-- **Raylib** (for graphics in the client)  
-- **ENet** (for networking in both client and server)  
+- **Raylib** http://github.com/raysan5/raylib
+- **ENet** https://github.com/zpl-c/enet
 
 ## 🛠️ Build Instructions
 ### Linux/macOS
@@ -44,5 +44,5 @@ git clone --recurse-submodules http://github.com/raysan5/raylib
 git submodule update --init --recursive
 
 # 2. Build and run
-cmake -S . -B ../build && cmake --build ../build --target run --parallel
+cmake -S . -B build && cmake --build build --target run --parallel
 ```

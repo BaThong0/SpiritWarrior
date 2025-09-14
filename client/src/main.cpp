@@ -3,6 +3,7 @@
 #include "Core/StateManager.h"
 #include "States/LoginState.h"
 #include "Core/EventBus.h"
+#include "Network/NetworkManager.h"
 
 /*
 State Pattern – Quản lý các trạng thái của menu (Login, MainMenu...).
@@ -37,6 +38,7 @@ int main()
 
     bool exit = false;
 
+    NetworkManager *networkManager = &NetworkManager::GetInstance();
     StateManager manager;
     manager.SetState(new LoginState());
 
@@ -50,5 +52,5 @@ int main()
         EndDrawing();
     }
 
-    CloseWindow();
+    // CloseWindow();
 }

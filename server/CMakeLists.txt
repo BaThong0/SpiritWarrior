@@ -1,25 +1,29 @@
-# Collect sources
-file(GLOB SERVER_SRC src/*.cpp)
+cmake_minimum_required (VERSION 3.16)
 
-add_executable(Server ${SERVER_SRC})
+project("Spirit_Warrior_Server")
 
-# === Find ENet ===
-find_path(ENET_INCLUDE_DIR enet/enet.h)
-find_library(ENET_LIBRARY NAMES enet)
+file(GLOB_RECURSE HEADER_FILES ${CMAKE_CURRENT_SOURCE_DIR}/src/*.h)
+file(GLOB_RECURSE HEADER_FILES ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp)
 
-if(NOT ENET_INCLUDE_DIR OR NOT ENET_LIBRARY)
-    message(FATAL_ERROR "ENet not found! Please install ENet or specify paths.")
+add_executable(${PROJECT_NAME} ${HEADER_FILES} ${SOURCE_FILES})
+
+add_subdirectory(
+    "../enet" #source
+    "${CMAKE_BINARY_DIR}/enet"
+)
+
+add_custom_target(run
+    COMMAND ${PROJECT_NAME}
+    DEPENDS ${PROJECT_NAME}
+    WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+)
+
+# Link thư viện OS-specific
+if(WIN32)
+    target_link_libraries(${PROJECT_NAME} PRIVATE Ws2_32 Winmm)
+elseif(UNIX)
+    target_link_libraries(${PROJECT_NAME} PRIVATE pthread)
 endif()
 
-# Includes
-target_include_directories(Server PRIVATE
-    ${CMAKE_SOURCE_DIR}/include
-    ${CMAKE_CURRENT_SOURCE_DIR}/include
-    ${ENET_INCLUDE_DIR}
-)
-
-# Link libraries
-target_link_libraries(Server PRIVATE
-    GameCore
-    ${ENET_LIBRARY}
-)
+set_property(GLOBAL PROPERTY USE_FOLDERS ON)
+set(CMAKE_CONFIGURE_DEPENDS ON)
