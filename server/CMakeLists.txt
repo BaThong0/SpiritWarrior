@@ -12,6 +12,11 @@ add_subdirectory(
     "${CMAKE_BINARY_DIR}/enet"
 )
 
+add_subdirectory(
+    "../external/json"
+    "${CMAKE_BINARY_DIR}/json"
+)
+
 add_custom_target(run
     COMMAND ${PROJECT_NAME}
     DEPENDS ${PROJECT_NAME}
@@ -22,7 +27,7 @@ add_custom_target(run
 if(WIN32)
     target_link_libraries(${PROJECT_NAME} PRIVATE Ws2_32 Winmm)
 elseif(UNIX)
-    target_link_libraries(${PROJECT_NAME} PRIVATE pthread)
+    target_link_libraries(${PROJECT_NAME} PRIVATE enet nlohmann_json::nlohmann_json pthread)
 endif()
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)

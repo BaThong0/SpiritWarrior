@@ -4,4 +4,7 @@
 /client/build/
 /raylib/
 /enet/
+/external/json/
+CMakeCache.txt
+CMakeFiles/
 !.gitmodules

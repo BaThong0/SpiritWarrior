@@ -1,0 +1,38 @@
+@startuml
+title Create Lobby 
+autonumber
+actor Player
+
+box "Client"
+participant ClientPlayer
+participant LobbyPlayer
+end box
+
+box "Server"
+participant LobbyManager
+participant Lobby
+endbox
+activate LobbyManager
+
+activate ClientPlayer
+
+
+Player -> ClientPlayer: requestCreateRoom (roomName)
+
+
+ClientPlayer -> LobbyManager : requestCreateRoom(roomName)
+
+create Lobby
+LobbyManager -> Lobby: CreateLobbyInstance
+activate Lobby 
+LobbyManager -> LobbyManager: Add Lobby to list
+LobbyManager -> Lobby: AddPlayer(playerID)
+Lobby --> LobbyManager: AddPlayer return(status)
+deactivate Lobby 
+LobbyManager --> ClientPlayer: responseCreateRoom(createRoomID, status)
+deactivate ClientPlayer
+deactivate LobbyManager 
+create LobbyPlayer
+ClientPlayer -> LobbyPlayer : create instance
+
+@enduml

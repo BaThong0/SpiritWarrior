@@ -17,11 +17,16 @@ add_subdirectory(
     "${CMAKE_BINARY_DIR}/enet"
 )
 
+add_subdirectory(
+    "../external/json"
+    "${CMAKE_BINARY_DIR}/json"
+)
+
 # Link thư viện OS-specific
 if(WIN32)
     target_link_libraries(${PROJECT_NAME} PRIVATE Ws2_32 Winmm raylib)
 elseif(UNIX)
-    target_link_libraries(${PROJECT_NAME} PRIVATE raylib pthread)
+    target_link_libraries(${PROJECT_NAME} PRIVATE enet raylib nlohmann_json::nlohmann_json pthread)
 endif()
 
 add_custom_target(run

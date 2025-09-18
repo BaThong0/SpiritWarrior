@@ -1,0 +1,10 @@
+@startuml
+
+class Event {
+    - clientID : uint
+    - sequenceNumber : uint
+    - eventType : enum 
+    - eventData : 
+}
+
+@enduml
