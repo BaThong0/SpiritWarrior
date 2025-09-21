@@ -1,4 +1,8 @@
-cd "%~dp0"
-cmake -S . -B build
-cmake --build build --target run --parallel
+@echo off
+set BUILD_DIR=build
+cmake -S . -B %BUILD_DIR% -G "Visual Studio 17 2022"
+
+cmake --build %BUILD_DIR% --config Debug --parallel
+echo ===== START CLIENT =====
+%BUILD_DIR%\Debug\Spirit_Warrior_Client.exe
 pause

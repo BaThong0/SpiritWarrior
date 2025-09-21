@@ -4,7 +4,7 @@ project(Spirit_Warrior_Client CXX)
 set(CMAKE_CXX_STANDARD 17)
 
 # --- Source code ---
-file(GLOB_RECURSE CLIENT_SOURCES src/*.cpp)
+file(GLOB_RECURSE CLIENT_SOURCES src/*.cpp src/*.h)
 add_executable(${PROJECT_NAME} ${CLIENT_SOURCES})
 
 # --- Raylib ---
@@ -24,7 +24,9 @@ add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../external/json
 target_include_directories(${PROJECT_NAME}
     PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/../enet/include
+        ${CMAKE_CURRENT_SOURCE_DIR}/../include
 )
+
 
 # Link ENet (tùy target trong enet/CMakeLists.txt)
 if (TARGET enet_static)

@@ -6,8 +6,9 @@
 void CreateRoomCommand::Execute()
 {
 	std::cout << "Dang tao phong ..." << std::endl;
-	NetworkManager::GetInstance().SendRequest("CREATE_ROOM", [](bool success) {
-		EventBus::GetInstance().Post([success]() {
+	NetworkManager::GetInstance().SendRequest(RequestType::CREATE_ROOM, [](bool success)
+											  { EventBus::GetInstance().Post([success]()
+																			 {
 			if (success) {
 				// Xử lý khi tạo phòng thành công
 				// Ví dụ: chuyển sang GameRoomState
@@ -16,7 +17,5 @@ void CreateRoomCommand::Execute()
 			else {
 				// Hiển thị thông báo thất bại
 				std::cout << "Tao phong that bai!" << std::endl;
-			}
-			});
-		});
+			} }); });
 }

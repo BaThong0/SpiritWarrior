@@ -1,10 +1,11 @@
 #pragma once
 #include <string>
+#include "Models/Common.h"
 
 class UserManager
 {
 private:
-    std::string username;
+    UserInfo userInfo;
     UserManager() = default;
 
 public:
@@ -14,14 +15,26 @@ public:
         return instance;
     }
 
-    void SetUsername(const std::string& name) {
-        username = name;
+    void SetUserID(int id)
+    {
+        userInfo.id = id;
     }
 
-    std::string GetUsername() const {
-        return username;
+    int GetUserID() const
+    {
+        return userInfo.id;
     }
 
-    UserManager(const UserManager&) = delete;
-    void operator=(const UserManager&) = delete;
+    void SetUsername(const std::string &name)
+    {
+        userInfo.username = name;
+    }
+
+    std::string GetUsername() const
+    {
+        return userInfo.username;
+    }
+
+    UserManager(const UserManager &) = delete;
+    void operator=(const UserManager &) = delete;
 };

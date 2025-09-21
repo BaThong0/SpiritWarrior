@@ -6,8 +6,9 @@
 void JoinRoomCommand::Execute()
 {
 	std::cout << "Dang vao phong ..." << std::endl;
-	NetworkManager::GetInstance().SendRequest("JOIN_ROOM", [](bool success) {
-		EventBus::GetInstance().Post([success]() {
+	NetworkManager::GetInstance().SendRequest(RequestType::JOIN_ROOM, [](bool success)
+											  { EventBus::GetInstance().Post([success]()
+																			 {
 			if (success) {
 				// Vào phòng thành công
 				// Chuyển sang trạng thái GameRoomState
@@ -16,7 +17,5 @@ void JoinRoomCommand::Execute()
 			else {
 				// Hiển thị lỗi
 				std::cout << "Vao phong that bai!" << std::endl;
-			}
-			});
-		});
+			} }); });
 }

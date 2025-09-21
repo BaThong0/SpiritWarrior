@@ -2,6 +2,7 @@
 #include "IState.h"
 #include "../Core/UserManager.h"
 #include <string>
+#include "Models/Common.h"
 
 class LoginState : public IState
 {

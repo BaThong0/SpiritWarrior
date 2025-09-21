@@ -6,20 +6,7 @@
 #include <map>
 #include <thread>
 #include <nlohmann/json.hpp>
-
-enum class RequestType {
-    CREATE_ROOM,
-    JOIN_ROOM,
-    PLAYER_MOVE,
-    UNKNOWN
-};
-
-RequestType stringToRequestType(const std::string& type) {
-    if (type == "CREATE_ROOM") return RequestType::CREATE_ROOM;
-    if (type == "JOIN_ROOM")   return RequestType::JOIN_ROOM;
-    if (type == "PLAYER_MOVE") return RequestType::PLAYER_MOVE;
-    return RequestType::UNKNOWN;
-}
+#include "Models/Common.h"
 
 using json = nlohmann::json;
 int new_player_id = 0;
@@ -197,32 +184,39 @@ void ListenEvent(ENetHost *server)
                 new_player_id++;                                           // each time a new client is connected, ID increments
                 client_map[new_player_id] = new ClientData(new_player_id); // create new client and stores in map
                 event.peer->data = client_map[new_player_id];
-
-                char data_to_send[126] = {'\0'};
-                sprintf(data_to_send, "3|%d", new_player_id); // pass the ID to the data need to send to the client
-                SendPacket(event.peer, data_to_send);
+                json response = {
+                    {"type", "INITIALIZE_ID"},
+                    {"data", {{"client_id", new_player_id}}},
+                    {"meta", {{"timestamp", time(nullptr)}}},
+                    {"status", "success"}};
+                ENetPacket *packet = enet_packet_create(response.dump().c_str(), response.dump().size() + 1, ENET_PACKET_FLAG_RELIABLE);
+                enet_peer_send(event.peer, 0, packet);
                 break;
             }
             case ENET_EVENT_TYPE_RECEIVE:
             {
-                   std::string data(reinterpret_cast<char*>(event.packet->data));
+                std::string data(reinterpret_cast<char *>(event.packet->data));
 
-                    try {
-                        auto j = json::parse(data);
+                try
+                {
+                    auto j = json::parse(data);
 
-                        std::string type = j["type"];
+                    std::string type = j["type"];
 
-                        if (type == "CREATE_ROOM") {
-                            std::string room = j["data"]["room_name"];
-                            int maxPlayers   = j["data"]["max_players"];
-                            std::string mode = j["data"]["mode"];
-                            std::cout << "Create room: " << room 
-                                    << " with max " << maxPlayers 
-                                    << " players, mode=" << mode << "\n";
-                        }
-                    } catch (std::exception& e) {
-                        std::cerr << "JSON parse error: " << e.what() << "\n";
+                    if (type == "CREATE_ROOM")
+                    {
+                        std::string room = j["data"]["room_name"];
+                        int maxPlayers = j["data"]["max_players"];
+                        std::string mode = j["data"]["mode"];
+                        std::cout << "Create room: " << room
+                                  << " with max " << maxPlayers
+                                  << " players, mode=" << mode << "\n";
                     }
+                }
+                catch (std::exception &e)
+                {
+                    std::cerr << "JSON parse error: " << e.what() << "\n";
+                }
                 // printf("A packet of length %u containing %s was received from %u on channel %u.\n",
                 //         event.packet->dataLength,
                 //         event.packet->data,
@@ -230,18 +224,17 @@ void ListenEvent(ENetHost *server)
                 //         event.channelID);
 
                 // ParseData(server, static_cast<ClientData*>(event.peer->data)->GetID(), event.packet->data);
-                json response;
-                response["type"] = "CREATE_ROOM_RESPONSE";
-                response["meta"] = {
-                    {"request_id", new_player_id},
-                    {"timestamp", time(nullptr)}
-                };
+                json response = {
+                    {"type", "CREATE_ROOM_RESPONSE"},
+                    {"data", {{"room_id", 12345}}},
+                    {"meta", {{"request_id", new_player_id}, {"timestamp", time(nullptr)}}},
+                    {"status", "success"}};
                 std::string msg = response.dump();
 
-                ENetPacket* packet = enet_packet_create(
-                msg.c_str(),
-                msg.size() + 1,
-                ENET_PACKET_FLAG_RELIABLE);
+                ENetPacket *packet = enet_packet_create(
+                    msg.c_str(),
+                    msg.size() + 1,
+                    ENET_PACKET_FLAG_RELIABLE);
                 enet_peer_send(event.peer, 0, packet);
                 enet_packet_destroy(event.packet);
                 break;
