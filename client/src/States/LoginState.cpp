@@ -4,7 +4,7 @@
 #include <raylib.h>
 #include <cstring>
 
-void LoginState::Update(StateManager &manager)
+void LoginState::Update()
 {
     mouseOnText = CheckCollisionPointRec(GetMousePosition(), textbox);
 
@@ -30,8 +30,10 @@ void LoginState::Update(StateManager &manager)
         }
     }
 
-    if (IsKeyPressed(KEY_ENTER)) {
-        if (strlen(input) > 0) {
+    if (IsKeyPressed(KEY_ENTER))
+    {
+        if (strlen(input) > 0)
+        {
             UserManager::Instance().SetUsername(input);
             manager.SetState(new MainMenuState());
         }
@@ -43,5 +45,6 @@ void LoginState::Draw()
     DrawText("Nhap ten nguoi choi:", 300, 150, 20, DARKGRAY);
     DrawRectangleRec(textbox, LIGHTGRAY);
     DrawText(input, (int)textbox.x + 5, (int)textbox.y + 8, 20, BLACK);
-    if (mouseOnText) DrawText("Nhap ten va Enter de xac nhan", 300, 250, 18, GRAY);
+    if (mouseOnText)
+        DrawText("Nhap ten va Enter de xac nhan", 300, 250, 18, GRAY);
 }

@@ -2,13 +2,14 @@
 #include "IState.h"
 #include "../Core/StateManager.h"
 
-class MainMenuState : public IState
+class LobbyState : public IState
 {
 public:
-    MainMenuState();
+    void SetRoomId(const std::string &room);
     void Update() override;
     void Draw() override;
 
 private:
     StateManager &manager = StateManager::GetInstance();
+    std::string m_room = "0";
 };

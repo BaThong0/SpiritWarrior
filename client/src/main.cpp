@@ -39,12 +39,11 @@ int main()
     bool exit = false;
 
     NetworkManager *networkManager = &NetworkManager::GetInstance();
-    StateManager manager;
+    StateManager& manager = StateManager::GetInstance();
     manager.SetState(new LoginState());
 
     while (WindowShouldClose() == false && exit == false)
     {
-        EventBus::GetInstance().Dispatch();
         BeginDrawing();
         ClearBackground(RAYWHITE);
         manager.Update();

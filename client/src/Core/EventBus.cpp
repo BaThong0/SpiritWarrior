@@ -1,26 +1,23 @@
 #include "EventBus.h"
 
-EventBus& EventBus::GetInstance()
+EventBus &EventBus::GetInstance()
 {
 	static EventBus instance;
 	return instance;
 }
 
-void EventBus::Post(Event e)
+void EventBus::Subsribe(const std::string &event, Handler handler)
 {
-	std::lock_guard<std::mutex> lock(mtx);
-	events.push(std::move(e));
+	handlers[event].push_back(std::move(handler));
 }
 
-void EventBus::Dispatch()
+void EventBus::Publish(const std::string &event, const std::string &data)
 {
-	std::queue<Event> local;
+	if (handlers.find(event) != handlers.end())
 	{
-		std::lock_guard<std::mutex> lock(mtx);
-		std::swap(local, events);
-	}
-	while (!local.empty()) {
-		local.front()();
-		local.pop();
+		for (auto &h : handlers[event])
+		{
+			h(data);
+		}
 	}
 }

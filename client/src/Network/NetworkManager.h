@@ -9,9 +9,8 @@
 class NetworkManager
 {
 public:
-	using Callback = std::function<void(bool)>;
 	static NetworkManager &GetInstance();
-	void SendRequest(const RequestType type, Callback cb);
+	void SendRequest(const RequestType type);
 	void GetMessagesFromServerLoop();
 	void SendData();
 

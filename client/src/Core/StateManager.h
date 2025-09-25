@@ -5,8 +5,15 @@ class StateManager
 {
 private:
     IState *currentState = nullptr;
-
+    StateManager() = default;
+    StateManager(const StateManager&) = delete;
+    StateManager(StateManager&&) = delete;
 public:
+    static StateManager& GetInstance() {
+        static StateManager manager;
+        return manager;
+    }
+
     void SetState(IState *state)
     {
         if (currentState)
@@ -17,7 +24,7 @@ public:
     void Update()
     {
         if (currentState)
-            currentState->Update(*this);
+            currentState->Update();
     }
 
     void Draw()

@@ -1,4 +1,5 @@
 ﻿#include "NetworkManager.h"
+#include "../Core/EventBus.h"
 #include <thread>
 #include <iostream>
 using json = nlohmann::json;
@@ -28,7 +29,7 @@ NetworkManager &NetworkManager::GetInstance()
   return instance;
 }
 
-void NetworkManager::SendRequest(const RequestType type, Callback cb)
+void NetworkManager::SendRequest(const RequestType type)
 {
   std::thread(
       [&]()
@@ -62,8 +63,7 @@ void NetworkManager::SendRequest(const RequestType type, Callback cb)
             msgStr.size() + 1,
             ENET_PACKET_FLAG_RELIABLE);
 
-        int result = enet_peer_send(peer, 0, packet);
-        cb(result == 0);
+        enet_peer_send(peer, 0, packet);
       })
       .detach();
 }
@@ -153,9 +153,7 @@ void NetworkManager::GetMessagesFromServerLoop()
         try
         {
           auto j = json::parse(data);
-          std::cout << "Received JSON: " << j.dump() << "\n";
           std::string type = j["type"];
-          std::cout << "type: " << type << "\n";
           std::string status = j["status"];
           if (type == "INITIALIZE_ID")
           {
@@ -165,12 +163,11 @@ void NetworkManager::GetMessagesFromServerLoop()
           }
           else if (type == "CREATE_ROOM_RESPONSE")
           {
-            std::cout << "status: " << status << "\n";
             if (status == "success")
             {
-              std::cout << "data: " << j["data"] << "\n";
               int roomId = j["data"]["room_id"].get<int>();
-              // printf("Room created successfully! ID=%d\n", roomId);
+              EventBus::GetInstance().Publish("CreateRoomSuccessful", std::to_string(roomId));
+              //
             }
             else
             {
