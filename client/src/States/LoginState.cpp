@@ -4,7 +4,12 @@
 #include <raylib.h>
 #include <cstring>
 
-void LoginState::Update()
+void LoginState::Enter(StateManager& manager)
+{
+    std::cout << "[LoginState] Enter\n";
+}
+
+void LoginState::Update(StateManager& manager)
 {
     mouseOnText = CheckCollisionPointRec(GetMousePosition(), textbox);
 
@@ -35,16 +40,21 @@ void LoginState::Update()
         if (strlen(input) > 0)
         {
             UserManager::Instance().SetUsername(input);
-            manager.SetState(new MainMenuState());
+            manager.SetState(std::make_unique<MainMenuState>());
         }
     }
 }
 
-void LoginState::Draw()
+void LoginState::Draw(StateManager& manager)
 {
     DrawText("Nhap ten nguoi choi:", 300, 150, 20, DARKGRAY);
     DrawRectangleRec(textbox, LIGHTGRAY);
     DrawText(input, (int)textbox.x + 5, (int)textbox.y + 8, 20, BLACK);
     if (mouseOnText)
         DrawText("Nhap ten va Enter de xac nhan", 300, 250, 18, GRAY);
+}
+
+void LoginState::Exit(StateManager& manager)
+{
+    std::cout << "[LoginState] Exit\n";
 }

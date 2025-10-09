@@ -4,38 +4,29 @@
 class StateManager
 {
 private:
-    IState *currentState = nullptr;
-    StateManager() = default;
-    StateManager(const StateManager&) = delete;
-    StateManager(StateManager&&) = delete;
+    std::unique_ptr<IState> currentState = nullptr;
 public:
-    static StateManager& GetInstance() {
-        static StateManager manager;
-        return manager;
-    }
-
-    void SetState(IState *state)
+    void SetState(std::unique_ptr<IState> state)
     {
-        if (currentState)
-            delete currentState;
-        currentState = state;
+        if (currentState) currentState->Exit(*this);
+        currentState = std::move(state);
+        if (currentState) currentState->Enter(*this);
     }
 
     void Update()
     {
         if (currentState)
-            currentState->Update();
+            currentState->Update(*this);
     }
 
     void Draw()
     {
         if (currentState)
-            currentState->Draw();
+            currentState->Draw(*this);
     }
 
     ~StateManager()
     {
-        if (currentState)
-            delete currentState;
+
     }
 };

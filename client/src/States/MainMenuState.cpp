@@ -5,16 +5,16 @@
 #include "../Commands/CreateRoomCommand.h"
 #include "../Commands/JoinRoomCommand.h"
 
-MainMenuState::MainMenuState()
+void MainMenuState::Enter(StateManager &manager)
 {
-    EventBus::GetInstance().Subsribe("CreateRoomSuccessful", [this](const std::string &data)
-                                     { 
-                                        LobbyState* state = new LobbyState();
-                                        state->SetRoomId(data);
-                                        manager.SetState(state); });
+    std::cout << "[MainMenuState] Enter\n";
+    EventBus::GetInstance().Subsribe("CreateRoomSuccessful", [&manager](const std::string &data)
+                                     {
+                                         manager.SetState(std::make_unique<LobbyState>(data));
+                                         });
 }
 
-void MainMenuState::Update()
+void MainMenuState::Update(StateManager &manager)
 {
     Vector2 mouse = GetMousePosition();
 
@@ -33,11 +33,16 @@ void MainMenuState::Update()
     }
 }
 
-void MainMenuState::Draw()
+void MainMenuState::Draw(StateManager &manager)
 {
     DrawText(("Xin chao, " + UserManager::Instance().GetUsername()).c_str(), 250, 150, 20, DARKGREEN);
     DrawRectangle(300, 200, 200, 50, SKYBLUE);
     DrawText("Tao phong", 340, 215, 20, BLACK);
     DrawRectangle(300, 270, 200, 50, ORANGE);
     DrawText("Vao phong", 340, 285, 20, BLACK);
+}
+
+void MainMenuState::Exit(StateManager &manager)
+{
+    std::cout << "[MainMenuState] Exit\n";
 }

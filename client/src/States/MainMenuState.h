@@ -5,10 +5,8 @@
 class MainMenuState : public IState
 {
 public:
-    MainMenuState();
-    void Update() override;
-    void Draw() override;
-
-private:
-    StateManager &manager = StateManager::GetInstance();
+    void Enter(StateManager& manager) override;
+    void Update(StateManager& manager) override;
+    void Draw(StateManager& manager) override;
+    void Exit(StateManager& manager) override;
 };

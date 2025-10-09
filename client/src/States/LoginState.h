@@ -8,12 +8,13 @@
 class LoginState : public IState
 {
 private:
-    StateManager &manager = StateManager::GetInstance();
     char input[32] = "";
     Rectangle textbox = {300, 200, 200, 40};
     bool mouseOnText = false;
 
 public:
-    void Update() override;
-    void Draw() override;
+    void Enter(StateManager& manager) override;
+    void Update(StateManager& manager) override;
+    void Draw(StateManager& manager) override;
+    void Exit(StateManager& manager) override;
 };

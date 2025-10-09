@@ -1,16 +1,26 @@
 #include "LobbyState.h"
 
-void LobbyState::SetRoomId(const std::string &room)
+LobbyState::LobbyState(const std::string &room)
 {
     this->m_room = "Room: " + room;
 }
 
-void LobbyState::Update()
+void LobbyState::Enter(StateManager& manager)
+{
+    std::cout << "[LobbyState] Enter\n";
+}
+
+void LobbyState::Update(StateManager& manager)
 {
     
 }
 
-void LobbyState::Draw()
+void LobbyState::Draw(StateManager& manager)
 {
     DrawText(m_room.c_str(), 10, 10, 20, DARKGREEN);
+}
+
+void LobbyState::Exit(StateManager& manager)
+{
+    std::cout << "[LobbyState] Exit\n";
 }

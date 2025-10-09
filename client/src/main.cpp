@@ -39,8 +39,8 @@ int main()
     bool exit = false;
 
     NetworkManager *networkManager = &NetworkManager::GetInstance();
-    StateManager& manager = StateManager::GetInstance();
-    manager.SetState(new LoginState());
+    StateManager manager;
+    manager.SetState(std::make_unique<LoginState>());
 
     while (WindowShouldClose() == false && exit == false)
     {

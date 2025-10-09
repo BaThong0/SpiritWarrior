@@ -154,33 +154,7 @@ void ListenEvent(ENetHost *server)
                 printf("A new client connected from %x:%u.\n",
                        event.peer->address.host,
                        event.peer->address.port);
-                // for(auto const& x : client_map)
-                // {
-                //     char send_data[1024] = {'\0'};
-                //     sprintf(send_data, "2|%d|%s", x.first, x.second->GetUsername().c_str());
-                //     BroadcastPacket(server, send_data); //send the information of connected clients to all the clients
-                // }
-                // new_player_id++; //each time a new client is connected, ID increments
-                // client_map[new_player_id] = new ClientData(new_player_id); //create new client and stores in map
-                // event.peer->data = client_map[new_player_id]; //attach client info directly to ENet's peer object
 
-                // PacketHeader header;
-                // header.sequence = 0;
-                // header.type = MessageType::CONNECT;
-                // header.payloadSize = sizeof(new_player_id);
-
-                // std::vector<uint8_t> payload (header.payloadSize);
-                // memcpy(payload.data(), &new_player_id, sizeof(new_player_id));
-
-                // Packet response {header, payload};
-
-                // std::vector<uint8_t> buffer(sizeof(PacketHeader) + payload.size());
-                // memcpy(buffer.data(), &header, sizeof(PacketHeader));
-                // memcpy(buffer.data() + sizeof(PacketHeader), payload.data(), payload.size());
-
-                // // char data_to_send[126] = {'\0'};
-                // // sprintf(data_to_send, "3|%d", new_player_id); //pass the ID to the data need to send to the client
-                // SendPacket(event.peer, buffer);
                 new_player_id++;                                           // each time a new client is connected, ID increments
                 client_map[new_player_id] = new ClientData(new_player_id); // create new client and stores in map
                 event.peer->data = client_map[new_player_id];
@@ -217,13 +191,7 @@ void ListenEvent(ENetHost *server)
                 {
                     std::cerr << "JSON parse error: " << e.what() << "\n";
                 }
-                // printf("A packet of length %u containing %s was received from %u on channel %u.\n",
-                //         event.packet->dataLength,
-                //         event.packet->data,
-                //         event.peer->address.port,
-                //         event.channelID);
 
-                // ParseData(server, static_cast<ClientData*>(event.peer->data)->GetID(), event.packet->data);
                 json response = {
                     {"type", "CREATE_ROOM_RESPONSE"},
                     {"data", {{"room_id", 12345}}},

@@ -5,11 +5,12 @@
 class LobbyState : public IState
 {
 public:
-    void SetRoomId(const std::string &room);
-    void Update() override;
-    void Draw() override;
+    LobbyState(const std::string &room);
+    void Enter(StateManager& manager) override;
+    void Update(StateManager& manager) override;
+    void Draw(StateManager& manager) override;
+    void Exit(StateManager& manager) override;
 
 private:
-    StateManager &manager = StateManager::GetInstance();
     std::string m_room = "0";
 };
