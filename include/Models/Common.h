@@ -16,4 +16,4 @@ struct UserInfo
     std::string username;
 };
 
-NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(UserInfo, id, usernam)
+NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(UserInfo, id, username)

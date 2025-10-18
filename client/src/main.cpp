@@ -4,6 +4,7 @@
 #include "States/LoginState.h"
 #include "Core/EventBus.h"
 #include "Network/NetworkManager.h"
+#include "../../include/Models/logger.h"
 
 /*
 State Pattern – Quản lý các trạng thái của menu (Login, MainMenu...).
@@ -42,6 +43,7 @@ int main()
     StateManager manager;
     manager.SetState(std::make_unique<LoginState>());
 
+    LOG_INFO("Application started");
     while (WindowShouldClose() == false && exit == false)
     {
         BeginDrawing();

@@ -1,10 +1,11 @@
 cmake_minimum_required(VERSION 3.10)
-project(Spirit_Warrior_Client CXX)
+project(Spirit_Warrior_Client C CXX)
 
 set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_C_STANDARD 11)
 
 # --- Source code ---
-file(GLOB_RECURSE CLIENT_SOURCES src/*.cpp src/*.h)
+file(GLOB_RECURSE CLIENT_SOURCES src/*.cpp src/*.h src/*.c)
 add_executable(${PROJECT_NAME} ${CLIENT_SOURCES})
 
 # --- Raylib ---

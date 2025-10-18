@@ -1,4 +1,5 @@
 #pragma once
+#include <memory>
 #include "../States/IState.h"
 
 class StateManager

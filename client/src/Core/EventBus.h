@@ -3,6 +3,7 @@
 #include <unordered_map>
 #include <mutex>
 #include <queue>
+#include <string>
 
 class EventBus
 {
