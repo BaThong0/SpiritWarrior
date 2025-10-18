@@ -1,5 +1,5 @@
 #include "Server.h"
-
+#include "../../include/logger.h"
 void Server::ListenEvent()
 {
     while (true)
@@ -68,7 +68,7 @@ void Server::ParseData(int id, char *data)
 
 void Server::HandleConnect(ENetPeer *peer)
 {
-    printf("A new client connected from %x:%u.\n",
+    LOG_INFO("A new client connected from %x:%u.\n",
            peer->address.host,
            peer->address.port);
 
@@ -97,28 +97,47 @@ void Server::HandleReceive(ENetPeer *peer, ENetPacket *packet)
             std::string room = j["data"]["room_name"];
             int maxPlayers = j["data"]["max_players"];
             std::string mode = j["data"]["mode"];
-            std::cout << "Create room: " << room
-                      << " with max " << maxPlayers
-                      << " players, mode=" << mode << "\n";
+            LOG_INFO("Create room: %s maxPlayers: %d mode: %s", room, maxPlayers, mode);
+
+            nlohmann::json response = {
+            {"type", "CREATE_ROOM_RESPONSE"},
+            {"data", {{"room_id", nextRoomId++}}},
+            {"meta", {{"request_id", nextPlayerId++}, {"timestamp", time(nullptr)}}},
+            {"status", "success"}};
+            std::string msg = response.dump();
+
+            ENetPacket *packetTemp = enet_packet_create(
+            msg.c_str(),
+            msg.size() + 1,
+            ENET_PACKET_FLAG_RELIABLE);
+            enet_peer_send(peer, 0, packetTemp);
+
+            m_roomList[nextRoomId].first = *peer;
+
+        }
+        if (type == "START_GAME")
+        {
+            // nlohmann::json response = {
+            // {"type", "START_GAME_RESPONSE"},
+            // {"data", {{"room_id", nextRoomId++}}},
+            // {"meta", {{"request_id", nextPlayerId++}, {"timestamp", time(nullptr)}}},
+            // {"status", "success"}};
+            // std::string msg = response.dump();
+
+            // ENetPacket *packetTemp = enet_packet_create(
+            // msg.c_str(),
+            // msg.size() + 1,
+            // ENET_PACKET_FLAG_RELIABLE);
+            // enet_peer_send(peer, 0, packetTemp);
+            unsigned int current_roomID = j["data"]["room_id"].get<int>();
+            LOG_INFO("ROOM_ID: %d", current_roomID);
+            m_roomList[current_roomID].second = std::thread(&Server::RoomLoop, this, current_roomID);
         }
     }
     catch (std::exception &e)
     {
         std::cerr << "JSON parse error: " << e.what() << "\n";
     }
-
-    nlohmann::json response = {
-        {"type", "CREATE_ROOM_RESPONSE"},
-        {"data", {{"room_id", 12345}}},
-        {"meta", {{"request_id", nextPlayerId}, {"timestamp", time(nullptr)}}},
-        {"status", "success"}};
-    std::string msg = response.dump();
-
-    ENetPacket *packetTemp = enet_packet_create(
-        msg.c_str(),
-        msg.size() + 1,
-        ENET_PACKET_FLAG_RELIABLE);
-    enet_peer_send(peer, 0, packetTemp);
 }
 
 Server::Server()
@@ -164,13 +183,26 @@ Server::~Server()
         m_workerListenEvent.join();
     enet_deinitialize();
 }
+void Server::RoomLoop(unsigned int roomId)
+{
+    LOG_INFO("Start room loop: %d ...", roomId);
+
+    /* Start room loop */
+    while(true)
+    {
+        sleep(3);
+        LOG_INFO("ROOM GAME IS RUNNING: %d", roomId);
+        break;
+    }
+    LOG_INFO("End room loop: %d", roomId);
+}
 
 void Server::Run()
 {
-    std::cout << "Server is running...\n";
+    LOG_INFO("Server is running...");
 
     // GAME LOOP START
-    std::cout << "Update logic for clients\n";
+    LOG_INFO("Update logic for clients");
     while (true)
     {
         // server uses fixed time steps

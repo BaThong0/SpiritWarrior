@@ -1,4 +1,4 @@
-#include "../../include/Models/logger.h"
+#include "../include/logger.h"
 
 static FILE *log_file = NULL;
 static LogLevel current_level = LOG_LEVEL_DEBUG;

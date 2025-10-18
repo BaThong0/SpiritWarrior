@@ -4,7 +4,7 @@
 #include "States/LoginState.h"
 #include "Core/EventBus.h"
 #include "Network/NetworkManager.h"
-#include "../../include/Models/logger.h"
+#include "../../include/logger.h"
 
 /*
 State Pattern – Quản lý các trạng thái của menu (Login, MainMenu...).

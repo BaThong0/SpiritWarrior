@@ -5,6 +5,6 @@
 
 void CreateRoomCommand::Execute()
 {
-	std::cout << "Dang tao phong ..." << std::endl;
+	LOG_INFO("Dang tao phong ...");
 	NetworkManager::GetInstance().SendRequest(RequestType::CREATE_ROOM);
 }

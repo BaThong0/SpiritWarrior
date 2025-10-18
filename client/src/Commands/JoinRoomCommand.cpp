@@ -5,6 +5,6 @@
 
 void JoinRoomCommand::Execute()
 {
-	std::cout << "Dang vao phong ..." << std::endl;
+	LOG_INFO("Dang vao phong ...");
 	NetworkManager::GetInstance().SendRequest(RequestType::JOIN_ROOM);
 }

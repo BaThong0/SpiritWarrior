@@ -2,6 +2,7 @@
 #include "../Core/EventBus.h"
 #include <thread>
 #include <iostream>
+#include "../../include/logger.h"
 using json = nlohmann::json;
 
 NetworkManager::NetworkManager()
@@ -18,7 +19,7 @@ void NetworkManager::ParseData(unsigned char *data)
   switch (data_type)
   {
   case 3:
-    printf("ID: %d", id);
+    LOG_INFO("ID: %d", id);
     break;
   }
 }
@@ -31,18 +32,20 @@ NetworkManager &NetworkManager::GetInstance()
 
 void NetworkManager::SendRequest(const RequestType type)
 {
-  std::thread(
-      [&]()
+  LOG_INFO("Request type before thread: %d", static_cast<int>(type));
+  std::thread( //Khong nen truyen reference vao
+      [this, type]()
       {
+        LOG_INFO("Send Request called");
         // Giả lập: gửi lên server (có thể chạy thread riêng)
         // Sau 2 giây trả kết quả
         json message;
-
+        LOG_INFO("Request type: %d", static_cast<int>(type));
         switch (type)
         {
         case RequestType::CREATE_ROOM:
         {
-          UserInfo userInfo{1, "PlayerOne"};
+          UserInfo userInfo{UserManager::Instance().GetUserID(), UserManager::Instance().GetRoomID(), UserManager::Instance().GetUsername()};
           message["type"] = "CREATE_ROOM";
           message["data"] = {
               {"room_name", "BattleArena"},
@@ -53,8 +56,17 @@ void NetworkManager::SendRequest(const RequestType type)
               {"timestamp", time(nullptr)}};
           break;
         }
+        case RequestType::START_GAME:
+        {
+          UserInfo userInfo{UserManager::Instance().GetUserID(), UserManager::Instance().GetRoomID(), UserManager::Instance().GetUsername()};
+          message["type"] = "START_GAME";
+          message["data"] = {
+            {"room_id", UserManager::Instance().GetRoomID()}
+          };
+          break;
+        }
         default:
-          printf("Wrong type try again!\n");
+          LOG_DEBUG("Wrong type try again!\n");
         }
         std::string msgStr = message.dump();
 
@@ -124,12 +136,12 @@ void NetworkManager::GetMessagesFromServerLoop()
   if (enet_host_service(client, &event, 5000) > 0 &&
       event.type == ENET_EVENT_TYPE_CONNECT)
   {
-    puts("Connection to 127.0.0.1:7777 succeeded.");
+    LOG_INFO("Connection to 127.0.0.1:7777 succeeded.");
   }
   else
   {
     enet_peer_reset(peer);
-    puts("Connection to 127.0.0.1:7777 failed.");
+    LOG_INFO("Connection to 127.0.0.1:7777 failed.");
     return;
   }
 
@@ -159,20 +171,21 @@ void NetworkManager::GetMessagesFromServerLoop()
           {
             std::cout << j["data"]["client_id"] << "\n";
             UserManager::Instance().SetUserID(j["data"]["client_id"].get<int>());
-            printf("Assigned Client ID: %d\n", UserManager::Instance().GetUserID());
+            LOG_INFO("Assigned Client ID: %d\n", UserManager::Instance().GetUserID());
           }
           else if (type == "CREATE_ROOM_RESPONSE")
           {
             if (status == "success")
             {
-              int roomId = j["data"]["room_id"].get<int>();
-              EventBus::GetInstance().Publish("CreateRoomSuccessful", std::to_string(roomId));
+              int room_ID = j["data"]["room_id"].get<int>();
+              UserManager::Instance().SetRoomID(room_ID);
+              EventBus::GetInstance().Publish("CreateRoomSuccessful", std::to_string(room_ID));
               //
             }
             else
             {
               std::string error = j["error"];
-              printf("Failed to create room:%s\n", error);
+              LOG_INFO("Failed to create room:%s\n", error);
             }
           }
         }

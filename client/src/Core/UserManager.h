@@ -35,6 +35,16 @@ public:
         return userInfo.username;
     }
 
+    void SetRoomID(unsigned int room_id)
+    {
+        userInfo.roomId = room_id;
+    }
+
+    unsigned int GetRoomID()
+    {
+        return userInfo.roomId;
+    }
+    
     UserManager(const UserManager &) = delete;
     void operator=(const UserManager &) = delete;
 };

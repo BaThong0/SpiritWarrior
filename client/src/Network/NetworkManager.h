@@ -5,7 +5,7 @@
 #include <nlohmann/json.hpp>
 #include "Models/Common.h"
 #include "../Core/UserManager.h"
-
+#include "../../include/logger.h"
 class NetworkManager
 {
 public:

@@ -6,7 +6,8 @@ set(CMAKE_C_STANDARD 11)
 
 # --- Source code ---
 file(GLOB_RECURSE CLIENT_SOURCES src/*.cpp src/*.h src/*.c)
-add_executable(${PROJECT_NAME} ${CLIENT_SOURCES})
+file(GLOB_RECURSE GLOBAL_SOURCES ../src/*.c)
+add_executable(${PROJECT_NAME} ${CLIENT_SOURCES} ${GLOBAL_SOURCES})
 
 # --- Raylib ---
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../raylib
