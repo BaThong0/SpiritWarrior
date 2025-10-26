@@ -10,9 +10,9 @@ class NetworkManager
 {
 public:
 	static NetworkManager &GetInstance();
-	void SendRequest(const RequestType type);
+	void SendRequest(const RequestType type, nlohmann::json j = {});
 	void GetMessagesFromServerLoop();
-	void SendData();
+	void SendData(int, int);
 
 private:
 	NetworkManager();

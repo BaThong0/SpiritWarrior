@@ -30,7 +30,7 @@ NetworkManager &NetworkManager::GetInstance()
   return instance;
 }
 
-void NetworkManager::SendRequest(const RequestType type)
+void NetworkManager::SendRequest(const RequestType type, nlohmann::json j)
 {
   LOG_INFO("Request type before thread: %d", static_cast<int>(type));
   std::thread( //Khong nen truyen reference vao
@@ -80,14 +80,12 @@ void NetworkManager::SendRequest(const RequestType type)
       .detach();
 }
 
-void NetworkManager::SendData()
+void NetworkManager::SendData(int X, int Y)
 {
   // Build JSON
   json message;
-  message["type"] = "player_update";
-  message["id"] = 1;
-  message["position"] = {{"x", 100}, {"y", 200}};
-  message["health"] = 95;
+  message["type"] = "PLAYER_MOVE";
+  message["position"] = {{"x", X}, {"y", Y}};
 
   // Convert to string
   std::string msgStr = message.dump();
@@ -188,10 +186,26 @@ void NetworkManager::GetMessagesFromServerLoop()
               LOG_INFO("Failed to create room:%s\n", error);
             }
           }
+          else if(type == "START_GAME_RESPONSE")
+          {
+            if(status == "success")
+            {
+
+            }
+            else 
+            {
+              std::string error = j["error"];
+              LOG_INFO("Failed to start game:%s\n", error);
+            }
+          }
+          // else if()
+          // {
+
+          // }
         }
         catch (std::exception &e)
         {
-          std::cerr << "Response parse error: " << e.what() << "\n";
+          LOG_INFO("Response parse error: ", e.what());
         }
         enet_packet_destroy(event.packet);
 

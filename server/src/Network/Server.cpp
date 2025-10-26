@@ -115,7 +115,7 @@ void Server::HandleReceive(ENetPeer *peer, ENetPacket *packet)
             m_roomList[nextRoomId].first = *peer;
 
         }
-        if (type == "START_GAME")
+        else if (type == "START_GAME")
         {
             // nlohmann::json response = {
             // {"type", "START_GAME_RESPONSE"},
@@ -131,7 +131,22 @@ void Server::HandleReceive(ENetPeer *peer, ENetPacket *packet)
             // enet_peer_send(peer, 0, packetTemp);
             unsigned int current_roomID = j["data"]["room_id"].get<int>();
             LOG_INFO("ROOM_ID: %d", current_roomID);
-            m_roomList[current_roomID].second = std::thread(&Server::RoomLoop, this, current_roomID);
+            m_roomList[current_roomID].second = std::thread(&Server::RoomLoop, this, current_roomID, peer);
+
+            nlohmann::json response = {
+            {"type", "START_GAME_RESPONSE"},
+            {"status", "success"}};
+            std::string msg = response.dump();
+
+            ENetPacket *packetTemp = enet_packet_create(
+            msg.c_str(),
+            msg.size() + 1,
+            ENET_PACKET_FLAG_RELIABLE);
+            enet_peer_send(peer, 0, packetTemp);
+        }
+        else if(type == "PLAYER_MOVE")
+        {
+            LOG_INFO("Player X_pos: %d, Y_pos: %d", j["position"]["x"].get<int>(), j["position"]["y"].get<int>());
         }
     }
     catch (std::exception &e)
@@ -183,16 +198,27 @@ Server::~Server()
         m_workerListenEvent.join();
     enet_deinitialize();
 }
-void Server::RoomLoop(unsigned int roomId)
+void Server::RoomLoop(unsigned int roomId, ENetPeer *peer)
 {
     LOG_INFO("Start room loop: %d ...", roomId);
 
     /* Start room loop */
     while(true)
     {
-        sleep(3);
-        LOG_INFO("ROOM GAME IS RUNNING: %d", roomId);
-        break;
+
+        sleep(0.1);
+        // LOG_INFO("ROOM GAME IS RUNNING: %d", roomId);
+        // int count = 0;
+        // nlohmann::json response = {
+        //     {"type", "SENDING_DATA_CONTINUOUSLY"},
+        //     {"data", {{"position", count++}}},};
+        //     std::string msg = response.dump();
+
+        //     ENetPacket *packetTemp = enet_packet_create(
+        //     msg.c_str(),
+        //     msg.size() + 1,
+        //     ENET_PACKET_FLAG_RELIABLE);
+        // enet_peer_send(peer, 0, packetTemp);
     }
     LOG_INFO("End room loop: %d", roomId);
 }

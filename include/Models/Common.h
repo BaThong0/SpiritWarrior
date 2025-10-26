@@ -18,4 +18,18 @@ struct UserInfo
     std::string username;
 };
 
+struct MapInfo {
+    //image
+    //sound
+    int height;
+    int width;
+};
+
+struct PlayerInfo
+{
+    std::string name;
+    int X;
+    int Y;
+};
+
 NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(UserInfo, id, username)

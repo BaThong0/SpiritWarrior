@@ -21,7 +21,7 @@ class Server
     void ParseData(int id, char *data);
     void HandleConnect(ENetPeer* peer);
     void HandleReceive(ENetPeer* peer, ENetPacket* packet);
-    void RoomLoop(unsigned int);
+    void RoomLoop(unsigned int, ENetPeer*);
 public:
     Server();
     ~Server();

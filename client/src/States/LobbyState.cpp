@@ -17,6 +17,7 @@ void LobbyState::Update(StateManager& manager)
 
     if (CheckCollisionPointRec(mouse, {300, 200, 200, 50}) && IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
     {
+        manager.SetState(std::make_unique<InGameState>());
         ICommand *cmd = new StartGameCommand();
         cmd->Execute();
         delete cmd;
