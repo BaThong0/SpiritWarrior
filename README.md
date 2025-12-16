@@ -23,7 +23,7 @@ This project requires:
 - **CMake** ≥ 3.15  
 - **C++20**  
 - **Raylib** http://github.com/raysan5/raylib
-- **ENet** https://github.com/zpl-c/enet
+- **ENet** [https://github.com/zpl-c/enet](https://github.com/lsalzman/enet.git)
 
 ## 🛠️ Build Instructions
 ### Linux/macOS
