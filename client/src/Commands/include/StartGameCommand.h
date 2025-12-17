@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../Core/ICommand.h"
+#include "../../Core/include/ICommand.h"
 
 class StartGameCommand : public ICommand {
 public:

@@ -1,6 +1,6 @@
 #pragma once
 #include "IState.h"
-#include "../Core/StateManager.h"
+#include "../../Core/include/StateManager.h"
 
 class MainMenuState : public IState
 {

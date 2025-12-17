@@ -7,4 +7,42 @@ class Event {
     - eventData : 
 }
 
+class Character
+{
+    - characterID: uint
+    - characterName: string
+    - characterImage: string 
+    - Health: uint 
+    - Mana: uint
+    - Armor: uint 
+    - AttackDamage: uint
+}
+
+class Map
+{
+    - mapID: uint
+    - mapName: uint
+    - thumbnail: string 
+}
+class Room
+{
+    - roomID: uint
+    - mapID: uint
+    - roomName: string
+    - listPlayer: list
+}
+
+class RoomManager
+{
+    - listRoom: unordered_map<roomID, thread>
+}
+
+class Player
+{
+    - playerID: uint
+    - playerName: string
+    - characterID: uint
+    - isAdmin: bool
+}
+
 @enduml

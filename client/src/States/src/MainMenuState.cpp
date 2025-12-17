@@ -1,9 +1,9 @@
-#include "MainMenuState.h"
-#include "LobbyState.h"
-#include "../Core/UserManager.h"
-#include "../Core/EventBus.h"
-#include "../Commands/CreateRoomCommand.h"
-#include "../Commands/JoinRoomCommand.h"
+#include "../include/MainMenuState.h"
+#include "../include/LobbyState.h"
+#include "../../Core/include/UserManager.h"
+#include "../../Core/include/EventBus.h"
+#include "../../Commands/include/CreateRoomCommand.h"
+#include "../../Commands/include/JoinRoomCommand.h"
 
 void MainMenuState::Enter(StateManager &manager)
 {

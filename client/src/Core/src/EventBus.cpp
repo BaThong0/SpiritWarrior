@@ -1,4 +1,4 @@
-#include "EventBus.h"
+#include "../include/EventBus.h"
 
 EventBus &EventBus::GetInstance()
 {

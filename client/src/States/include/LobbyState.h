@@ -1,6 +1,6 @@
 #pragma once
 #include "IState.h"
-#include "../Core/StateManager.h"
+#include "../../Core/include/StateManager.h"
 #include "InGameState.h"
 class LobbyState : public IState
 {

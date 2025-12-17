@@ -1,10 +1,10 @@
 #pragma once
 #include "IState.h"
-#include "../Core/StateManager.h"
+#include "../../Core/include/StateManager.h"
 #include "../../../include/logger.h"
-#include "../Core/EventBus.h"
-#include "../Core/UserManager.h"
-#include "../Network/NetworkManager.h"
+#include "../../Core/include/EventBus.h"
+#include "../../Core/include/UserManager.h"
+#include "../../Network/include/NetworkManager.h"
 class InGameState : public IState
 {
 public:

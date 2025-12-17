@@ -1,9 +1,9 @@
 #include <raylib.h>
 #include <iostream>
-#include "Core/StateManager.h"
-#include "States/LoginState.h"
-#include "Core/EventBus.h"
-#include "Network/NetworkManager.h"
+#include "Core/include/StateManager.h"
+#include "States/include/LoginState.h"
+#include "Core/include/EventBus.h"
+#include "Network/include/NetworkManager.h"
 #include "../../include/logger.h"
 
 /*

@@ -1,5 +1,5 @@
-﻿#include "NetworkManager.h"
-#include "../Core/EventBus.h"
+﻿#include "../include/NetworkManager.h"
+#include "../../Core/include/EventBus.h"
 #include <thread>
 #include <iostream>
 #include "../../include/logger.h"

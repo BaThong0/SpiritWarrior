@@ -1,4 +1,4 @@
-#include "InGameState.h"
+#include "../include/InGameState.h"
 
 void InGameState::Enter(StateManager &manager)
 {

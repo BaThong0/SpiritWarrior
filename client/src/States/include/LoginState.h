@@ -1,7 +1,7 @@
 #pragma once
 #include "IState.h"
-#include "../Core/StateManager.h"
-#include "../Core/UserManager.h"
+#include "../../Core/include/StateManager.h"
+#include "../../Core/include/UserManager.h"
 #include <string>
 #include "Models/Common.h"
 

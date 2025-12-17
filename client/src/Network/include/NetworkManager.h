@@ -4,7 +4,7 @@
 #include <enet/enet.h>
 #include <nlohmann/json.hpp>
 #include "Models/Common.h"
-#include "../Core/UserManager.h"
+#include "../../Core/include/UserManager.h"
 #include "../../include/logger.h"
 class NetworkManager
 {

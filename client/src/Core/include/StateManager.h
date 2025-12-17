@@ -1,6 +1,6 @@
 #pragma once
 #include <memory>
-#include "../States/IState.h"
+#include "../../States/include/IState.h"
 #include "Models/Common.h"
 
 class StateManager

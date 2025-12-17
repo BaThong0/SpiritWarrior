@@ -7,7 +7,7 @@
 #include <thread>
 #include <nlohmann/json.hpp>
 #include "Models/Common.h"
-#include "Network/Server.h"
+#include "Network/include/Server.h"
 #include "../../include/logger.h"
 
 int main(int argc, char **argv)

@@ -1,6 +1,6 @@
-﻿#include "JoinRoomCommand.h"
-#include "../Network/NetworkManager.h"
-#include "../Core/EventBus.h"
+﻿#include "../include/JoinRoomCommand.h"
+#include "../../Network/include/NetworkManager.h"
+#include "../../Core/include/EventBus.h"
 #include <iostream>
 
 void JoinRoomCommand::Execute()

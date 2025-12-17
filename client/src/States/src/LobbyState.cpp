@@ -1,5 +1,5 @@
-#include "LobbyState.h"
-#include "../Commands/StartGameCommand.h"
+#include "../include/LobbyState.h"
+#include "../../Commands/include/StartGameCommand.h"
 
 LobbyState::LobbyState(const std::string &room)
 {

@@ -1,6 +1,6 @@
-#include "LoginState.h"
-#include "MainMenuState.h"
-#include "../Core/StateManager.h"
+#include "../include/LoginState.h"
+#include "../include/MainMenuState.h"
+#include "../../Core/include/StateManager.h"
 #include <raylib.h>
 #include <cstring>
 
