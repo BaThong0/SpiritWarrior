@@ -24,20 +24,20 @@ class Map
     - mapName: uint
     - thumbnail: string 
 }
-class Room
+class Lobby
 {
     - roomID: uint
     - mapID: uint
     - roomName: string
-    - listPlayer: list
+    - listPlayer: unordered_map<playerID, characterID>
 }
 
-class RoomManager
+class LobbyManager
 {
     - listRoom: unordered_map<roomID, thread>
 }
 
-class Player
+class LobbyPlayer
 {
     - playerID: uint
     - playerName: string

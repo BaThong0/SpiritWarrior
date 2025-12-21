@@ -1,0 +1,33 @@
+@startuml
+title Kick Player
+autonumber
+actor Player
+
+box "Client"
+participant Admin
+participant TargetPlayer
+participant OtherPlayer
+end box
+
+box "Server"
+participant Lobby
+endbox
+
+activate Admin
+
+Player -> Admin: requestKickPlayer
+
+Admin -> Lobby: requestKickPlayer
+activate Lobby
+Lobby -> Lobby: deletePlayerID from list
+Lobby --> Admin: responseKickPlayer
+deactivate Admin 
+Lobby -> TargetPlayer: notify
+
+Lobby -> OtherPlayer: notify
+
+deactivate Lobby 
+
+
+
+@enduml

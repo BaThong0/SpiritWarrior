@@ -1,0 +1,32 @@
+@startuml
+title Choose Character
+autonumber
+actor Player
+
+box "Client"
+participant LobbyPlayer
+participant Character
+end box
+
+box "Server"
+participant Lobby
+endbox
+
+activate LobbyPlayer
+
+
+Player -> LobbyPlayer: requestChooseCharacter
+LobbyPlayer -> Character: create instance
+activate Character 
+Character --> LobbyPlayer: return instance
+deactivate Character 
+LobbyPlayer -> LobbyPlayer: add Character to property
+LobbyPlayer -> Lobby: requestChooseCharacter
+activate Lobby
+Lobby -> Lobby: add PlayerID and CharacterID to a map
+Lobby --> LobbyPlayer: responseChooseCharacter 
+deactivate Lobby 
+
+
+
+@enduml

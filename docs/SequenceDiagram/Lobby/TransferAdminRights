@@ -1,0 +1,33 @@
+@startuml
+title Transfer Admin Rights
+autonumber
+actor Player
+
+box "Client"
+participant Admin
+participant TargetPlayer
+participant OtherPlayer
+end box
+
+box "Server"
+participant Lobby
+endbox
+
+activate Admin
+
+Player -> Admin: requestTransferAdminRights
+
+Admin -> Lobby: requestTransferAdminRights
+activate Lobby
+Lobby -> Lobby: set isAdmin of current \nadmin to false,\nset the TargetPlayer's isAdmin\n to true
+Lobby --> Admin: responseTransferAdminRight
+deactivate Admin 
+Lobby -> TargetPlayer: notify
+
+Lobby -> OtherPlayer: notify
+
+deactivate Lobby 
+
+
+
+@enduml

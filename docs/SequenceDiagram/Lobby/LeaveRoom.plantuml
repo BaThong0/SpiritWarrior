@@ -1,0 +1,27 @@
+@startuml
+title Choose Character
+autonumber
+actor Player
+
+box "Client"
+participant LobbyPlayer
+end box
+
+box "Server"
+participant Lobby
+endbox
+
+activate LobbyPlayer
+
+
+Player -> LobbyPlayer: requestLeaveRoom
+LobbyPlayer -> Lobby: requestLeaveRoom
+
+activate Lobby
+Lobby -> Lobby: remove PlayerID in list
+Lobby --> LobbyPlayer: responseLeaveCharacter 
+deactivate Lobby 
+
+
+
+@enduml

@@ -1,0 +1,31 @@
+@startuml
+title Choose Map
+autonumber
+actor Player
+
+box "Client"
+participant Admin
+participant Map
+end box
+
+box "Server"
+participant Lobby
+endbox
+
+activate Admin
+
+
+Player -> Admin: requestChooseMap
+Admin -> Map: create instance
+activate Map 
+Map --> Admin: return instance
+deactivate Map 
+Admin -> Lobby: requestChooseMap
+activate Lobby
+Lobby -> Lobby: add mapID to property
+Lobby --> Admin: responseChooseMap
+deactivate Lobby 
+
+
+
+@enduml
