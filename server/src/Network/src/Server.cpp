@@ -206,7 +206,7 @@ void Server::RoomLoop(unsigned int roomId, ENetPeer *peer)
     while(true)
     {
 
-        sleep(0.1);
+        //sleep(0.1);
         // LOG_INFO("ROOM GAME IS RUNNING: %d", roomId);
         // int count = 0;
         // nlohmann::json response = {

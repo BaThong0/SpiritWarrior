@@ -40,7 +40,14 @@ endif()
 # --- Cross-platform settings ---
 if (WIN32)
     message(STATUS "Configuring for Windows...")
-    target_compile_definitions(${PROJECT_NAME} PRIVATE PLATFORM_WINDOWS)
+    target_compile_definitions(${PROJECT_NAME} PRIVATE 
+    PLATFORM_WINDOWS
+    WIN32_LEAN_AND_MEAN
+    NOGDI
+    NOUSER
+    NOMINMAX
+    _CRT_SECURE_NO_WARNINGS
+    )
 elseif (UNIX)
     message(STATUS "Configuring for Linux...")
     target_compile_definitions(${PROJECT_NAME} PRIVATE PLATFORM_LINUX)
@@ -51,5 +58,12 @@ endif()
 add_custom_target(run
     COMMAND $<TARGET_FILE:${PROJECT_NAME}>
     DEPENDS ${PROJECT_NAME}
-    WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
+    WORKING_DIRECTORY $<TARGET_FILE_DIR:${PROJECT_NAME}>
+)
+
+add_custom_command(
+    TARGET ${PROJECT_NAME} POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+        ${CMAKE_SOURCE_DIR}/Graphics
+        $<TARGET_FILE_DIR:${PROJECT_NAME}>/Graphics
 )

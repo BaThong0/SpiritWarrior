@@ -22,7 +22,7 @@ class Map
 {
     - mapID: uint
     - mapName: uint
-    - thumbnail: string 
+    - thumbnailPath: string 
 }
 class Lobby
 {
