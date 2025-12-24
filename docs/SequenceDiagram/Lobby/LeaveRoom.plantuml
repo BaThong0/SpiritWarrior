@@ -1,10 +1,11 @@
 @startuml
-title Choose Character
+title Leave Room
 autonumber
 actor Player
 
 box "Client"
 participant LobbyPlayer
+participant OtherLobbyPlayers
 end box
 
 box "Server"
@@ -18,10 +19,16 @@ Player -> LobbyPlayer: requestLeaveRoom
 LobbyPlayer -> Lobby: requestLeaveRoom
 
 activate Lobby
-Lobby -> Lobby: remove PlayerID in list
+Lobby -> Lobby: updateListPlayer
+note right Lobby
+remove PlayerID in list
+end note 
+activate Lobby
+Lobby -> OtherLobbyPlayers: NotifyCharacterLeave
+deactivate Lobby
 Lobby --> LobbyPlayer: responseLeaveCharacter 
 deactivate Lobby 
-
-
+LobbyPlayer --> Player: responseLeaveRoom
+deactivate LobbyPlayer 
 
 @enduml

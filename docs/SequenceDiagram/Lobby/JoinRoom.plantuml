@@ -1,5 +1,5 @@
 @startuml
-title Create Lobby 
+title Join Lobby 
 autonumber
 actor Player
 
@@ -17,15 +17,12 @@ activate LobbyManager
 activate ClientPlayer
 
 
-Player -> ClientPlayer: requestCreateRoom (roomName)
+Player -> ClientPlayer: requestJoinRoom (roomName)
 
 
-ClientPlayer -> LobbyManager : requestCreateRoom(roomName)
+ClientPlayer -> LobbyManager : requestJoinRoom(roomName)
 
-create Lobby
-LobbyManager -> Lobby: CreateLobbyInstance
 
-LobbyManager -> LobbyManager: Add Lobby to list
 LobbyManager -> Lobby: AddPlayer(playerID)
 activate Lobby 
 Lobby -> Lobby: AddPlayertoListPlayer
@@ -34,8 +31,8 @@ add PlayerID to listPlayer
 end note 
 Lobby --> LobbyManager: AddPlayer return(status)
 deactivate Lobby 
-LobbyManager --> ClientPlayer: responseCreateRoom(createRoomID, status)
-ClientPlayer --> Player: responseCreateRoom
+LobbyManager --> ClientPlayer: requestJoinRoom(createRoomID, status)
+ClientPlayer --> Player: requestJoinRoom
 deactivate ClientPlayer
 deactivate LobbyManager 
 create LobbyPlayer

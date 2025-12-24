@@ -1,12 +1,11 @@
 @startuml
-title Transfer Admin Rights
+title Transfer Admin Right
 autonumber
 actor Player
 
 box "Client"
 participant Admin
-participant TargetPlayer
-participant OtherPlayer
+participant OtherLobbyPlayers
 end box
 
 box "Server"
@@ -15,18 +14,24 @@ endbox
 
 activate Admin
 
-Player -> Admin: requestTransferAdminRights
+Player -> Admin: requestTransferAdminRight
 
 Admin -> Lobby: requestTransferAdminRights
 activate Lobby
-Lobby -> Lobby: set isAdmin of current \nadmin to false,\nset the TargetPlayer's isAdmin\n to true
+Lobby -> Lobby: setAdminRight
+note right Lobby 
+set isAdmin of current admin to false,
+set the TargetPlayer's isAdmin to true
+end note 
+activate Lobby
+Lobby -> OtherLobbyPlayers: NotifyAdminTransferRight
+deactivate Lobby
 Lobby --> Admin: responseTransferAdminRight
-deactivate Admin 
-Lobby -> TargetPlayer: notify
-
-Lobby -> OtherPlayer: notify
-
 deactivate Lobby 
+Admin --> Player: responseTransferAdminRight
+deactivate Admin 
+
+
 
 
 

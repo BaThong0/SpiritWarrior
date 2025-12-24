@@ -5,7 +5,8 @@ actor Player
 
 box "Client"
 participant Admin
-participant Map
+participant OtherLobbyPlayers
+participant MapDB
 end box
 
 box "Server"
@@ -16,16 +17,22 @@ activate Admin
 
 
 Player -> Admin: requestChooseMap
-Admin -> Map: create instance
-activate Map 
-Map --> Admin: return instance
-deactivate Map 
+Admin -> MapDB: requestChooseMap
+activate MapDB 
+MapDB --> Admin: return MapID
+deactivate MapDB
 Admin -> Lobby: requestChooseMap
 activate Lobby
-Lobby -> Lobby: add mapID to property
+Lobby -> Lobby: setMap
+note right Lobby
+add mapID to property
+end note 
+activate Lobby 
+Lobby -> OtherLobbyPlayers: NotifyMapChosen
+deactivate Lobby
 Lobby --> Admin: responseChooseMap
 deactivate Lobby 
-
+Admin --> Player: responseChooseMap
 
 
 @enduml

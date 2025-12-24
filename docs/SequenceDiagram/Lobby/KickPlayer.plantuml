@@ -5,8 +5,7 @@ actor Player
 
 box "Client"
 participant Admin
-participant TargetPlayer
-participant OtherPlayer
+participant OtherLobbyPlayers
 end box
 
 box "Server"
@@ -19,15 +18,16 @@ Player -> Admin: requestKickPlayer
 
 Admin -> Lobby: requestKickPlayer
 activate Lobby
-Lobby -> Lobby: deletePlayerID from list
+Lobby -> Lobby: updateListPlayer
+note right Lobby
+deletePlayerID from list
+end note 
+activate Lobby 
+Lobby -> OtherLobbyPlayers: NotifyPlayerKicked 
+deactivate Lobby
 Lobby --> Admin: responseKickPlayer
-deactivate Admin 
-Lobby -> TargetPlayer: notify
-
-Lobby -> OtherPlayer: notify
-
-deactivate Lobby 
-
-
+deactivate Lobby  
+Admin --> Player: responseKickPlayer
+deactivate Admin
 
 @enduml
