@@ -9,6 +9,7 @@ LobbyState::LobbyState(const std::string &room)
 void LobbyState::Enter(StateManager& manager)
 {
     std::cout << "[LobbyState] Enter\n";
+    characterSelectorDialog.LoadTexTure();
 }
 
 void LobbyState::Update(StateManager& manager)
@@ -35,7 +36,7 @@ void LobbyState::Draw(StateManager& manager)
     DrawText(m_room.c_str(), 10, 10, 20, DARKGREEN);
     if (isCharacterSelectOpen) // Draw character select dialog first to be on top
     {
-        CharacterSelectorDialog::Draw();
+        characterSelectorDialog.Draw();
         return;
     }
     characterButton.Draw();

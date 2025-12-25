@@ -2,7 +2,9 @@
 #include"IDialog.h"
 #include<raylib.h>
 #include<vector>
-#include"../../UI/Widgets/include/Icon.h"
+#include"../../Widgets/include/Icon/IIcon.h"
+#include"../../Widgets/include/Icon/ImageIcon.h"
+
 enum class CharacterType
 {
     Warrior,
@@ -29,18 +31,9 @@ public:
     CharacterSelectorDialog() = default;
     ~CharacterSelectorDialog() = default;
 
-    void Open() override
-    {
-        m_isOpen = true;
-    }
-    void Close() override
-    {
-        m_isOpen = false;
-    }
-    
-    static void LoadTexTure();
-    static void Update();
-    static void Draw();
+    void LoadTexTure();
+    void Update();
+    void Draw();
 private:
-static std::vector<Icon> m_listTextures;
+std::vector<ImageIcon> m_listCharactor;
 };  

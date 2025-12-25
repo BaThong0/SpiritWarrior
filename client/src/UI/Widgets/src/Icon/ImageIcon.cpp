@@ -1,5 +1,5 @@
-#include"../include/Icon.h"
-Icon::Icon(const char* imagePath, Vector2 pos, float scale)
+#include"../../include/Icon/ImageIcon.h"
+ImageIcon::ImageIcon(const char* imagePath, Vector2 pos, float scale)
 {
     Image img = LoadImage(imagePath);
     int width = static_cast<int>(img.width * scale);
@@ -9,17 +9,17 @@ Icon::Icon(const char* imagePath, Vector2 pos, float scale)
     position = pos;
 }
 
-Icon::~Icon()
+ImageIcon::~ImageIcon()
 {
     UnloadTexture(texture);
 }
 
-void Icon::Update()
+void ImageIcon::Update()
 {
     // Update logic if needed
 }
 
-void Icon::Draw()
+void ImageIcon::Draw()
 {
     DrawTextureV(texture, position, WHITE);
 }

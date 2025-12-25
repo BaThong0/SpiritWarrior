@@ -3,12 +3,10 @@ class IDialog{
     IDialog() = default;
     virtual ~IDialog() = default;
     
-    virtual void Open() = 0;
-    virtual void Close() = 0;
+    virtual void Open() { m_isOpen = true; };
+    virtual void Close() { m_isOpen = false; };
     bool IsOpen(){ return m_isOpen; }
 
-    virtual void Update() = 0;
-    virtual void Draw() = 0;
     protected:
     bool m_isOpen = false;
 };
