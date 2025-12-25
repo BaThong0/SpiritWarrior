@@ -133,10 +133,6 @@ int main() {
 
     c = db.getById(2);
     std::cout << c.dump(3) << std::endl;
-    // Update
-    db.updateMap(3, {
-        {"hp", 180}
-    });
 
     // Remove
     db.removeMap(1);
