@@ -1,0 +1,22 @@
+{
+    "characters": [
+        {
+            "id": 1,
+            "name": "Knight",
+            "image": "path",
+            "health": 180,
+            "mana": 200,
+            "armor": 150,
+            "damage": 5 
+        },
+        {
+            "id": 2,
+            "name": "Mage",
+            "image": "path",
+            "health": 120,
+            "mana": 400,
+            "armor": 120,
+            "damage": 6 
+        }
+    ]
+}

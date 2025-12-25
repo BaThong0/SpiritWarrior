@@ -1,0 +1,14 @@
+{
+    "maps": [
+        {
+            "id": 1,
+            "name": "Forrest",
+            "image": "path"
+        },
+        {
+            "id": 2,
+            "name": "Dessert",
+            "image": "path"
+        }
+    ]
+}
